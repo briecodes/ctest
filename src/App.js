@@ -21,6 +21,18 @@ class App extends Component {
     // text.fillStyle = 'blue';
     // text.font = '40pt Calibri';
     // text.fillText('Hello World!', ((window.innerWidth/2) - 100), window.innerHeight/2);
+
+    // CAMERA ACCESS
+    let video = document.getElementById('video');
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        console.log('working on it...');
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+      });
+    }else{
+      console.log('something is wrong.');
+    }
   };
 
   takeScreenshot = () => {
@@ -39,7 +51,10 @@ class App extends Component {
 
   render() {
     return (
-      <canvas id='myCanvas' width='500' height='500'></canvas>
+      <React.Fragment>
+        <video id="video" width="640" height="480" autoPlay></video>
+        <canvas id='myCanvas' width='500' height='500'></canvas>
+      </React.Fragment>
     );
   }
 }
