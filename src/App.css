@@ -2,3 +2,49 @@ html, body {
   padding: 0;
   margin: 0;
 }
+
+canvas {
+  z-index: 1;
+  position: absolute;
+}
+
+video {
+  z-index: 0;
+  position: absolute;
+}
+
+#holder {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 94%;
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  padding: 3%;
+  background: rgba(0, 0, 0, 0.5)
+}
+
+.button {
+  display: inline;
+  padding: 5px;
+  background: fuchsia;
+  font-size: 1.5em;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  color: yellow;
+}
+
+#shutter {
+  display: inline-block;
+  margin: 0 20px 0 20px;
+  width: 50px;
+  height: 50px;
+  background-image: url('./assets/shutter.png');
+  background-size: contain;
+  cursor: pointer;
+}
