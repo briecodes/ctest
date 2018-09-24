@@ -20,7 +20,7 @@ video {
   width: 94%;
   position: absolute;
   bottom: 0;
-  z-index: 2;
+  z-index: 3;
   padding: 3%;
   background: rgba(0, 0, 0, 0.5)
 }
@@ -47,4 +47,30 @@ video {
   background-image: url('./assets/shutter.png');
   background-size: contain;
   cursor: pointer;
+}
+
+.frame1 {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/frame1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.frame2 {
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/frame2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hide {
+  display: none;
 }

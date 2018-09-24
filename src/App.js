@@ -8,6 +8,7 @@ class App extends Component {
   state = {
     stopVid: false,
     step: 1,
+    frame: 1,
   };
 
   componentDidMount() {
@@ -30,7 +31,7 @@ class App extends Component {
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
         video.src = window.URL.createObjectURL(stream);
-        // video.play();
+        video.play();
         const canvasVid = canvas.getContext('2d');
         this.draw(video, canvasVid, canvas.width, canvas.height);
       });
@@ -39,7 +40,27 @@ class App extends Component {
     };
   };
 
+  stopVideo = () => {
+    video.pause();
+    video.src = "";
+    // this.clearCanvas();
+  }
+
   takeScreenshot = () => {
+    document.getElementById('frame').classList.add('hide');
+
+    if (this.state.frame === 1){
+      const frameImg = document.getElementById('hiddenImage1');
+      const frame = canvas.getContext('2d');
+      const ratio = frameImg.width / frameImg.height;
+      frame.drawImage(frameImg, (canvas.width/2) - (canvas.height * ratio)/2, 0, canvas.height * ratio, canvas.height);
+    }else {
+      const frameImg = document.getElementById('hiddenImage2');
+      const frame = canvas.getContext('2d');
+      const ratio = frameImg.width / frameImg.height;
+      frame.drawImage(frameImg, (canvas.width/2) - (canvas.height * ratio)/2, 0, canvas.height * ratio, canvas.height);
+    };
+
     this.setState({
       stopVid: true,
       step: 2,
@@ -60,6 +81,7 @@ class App extends Component {
   };
 
   clearCanvas = () => {
+    this.setState({step: 1});
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
     this.makeVideo();
@@ -74,7 +96,9 @@ class App extends Component {
   step1 = () => {
     return (
       <div id='holder'>
+        <div className='button' onClick={this.prevNext}>&nbsp; &lt; &nbsp;&nbsp;</div>
         <div id='shutter' onClick={this.takeScreenshot}></div>
+        <div className='button' onClick={this.prevNext}>&nbsp;&nbsp; &gt; &nbsp;</div>
       </div>
     );
   };
@@ -89,15 +113,33 @@ class App extends Component {
     );
   };
 
+  prevNext = () => {
+    console.log('click');
+    if (this.state.frame === 1){
+      this.setState({
+        frame: 2
+      });
+    }else {
+      this.setState({
+        frame: 1
+      });
+    };
+  };
+
   render() {
     return (
       <React.Fragment>
         {this.state.step === 1 ? this.step1() : this.step2() }
+        {this.state.frame === 1 ? <div className="frame1" id='frame'></div> : <div className="frame2" id='frame'></div> }
         <video id='video' width='640' height='480' autoPlay></video>
         <canvas id='myCanvas' width='500' height='500'></canvas>
+        <div className='hide'>
+          <img id='hiddenImage1' src='./assets/frame1.png' alt='hidden' />
+          <img id='hiddenImage2' src='./assets/frame2.png' alt='hidden dos' />
+        </div>
       </React.Fragment>
     );
-  }
-}
+  };
+};
 
 export default App;
