@@ -5,6 +5,10 @@ let canvas = '';
 let video = '';
 
 class App extends Component {
+  state = {
+    stopVid: false,
+    step: 1,
+  };
 
   componentDidMount() {
     this.launchProgram();
@@ -15,38 +19,37 @@ class App extends Component {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // CAMERA ACCESS
-    video = document.getElementById('video');
-    video.width = window.innerWidth;
-    video.height = window.innerHeight;
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-        console.log('working on it...');
-          video.src = window.URL.createObjectURL(stream);
-          video.play();
-      });
-    }else{
-      console.log('something is wrong.');
-    }
+    this.makeVideo();
   };
 
   makeVideo = () => {
-    // const vid = canvas.getContext('2d');
-    
+    video = document.getElementById('video');
+    video.width = window.innerWidth/2;
+    video.height = window.innerHeight/2;
+
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        video.src = window.URL.createObjectURL(stream);
+        // video.play();
+        const canvasVid = canvas.getContext('2d');
+        this.draw(video, canvasVid, canvas.width, canvas.height);
+      });
+    }else{
+      console.log('something is wrong.');
+    };
   };
 
   takeScreenshot = () => {
+    this.setState({
+      stopVid: true,
+      step: 2,
+    });
+  };
+
+  saveScreenshot = () => {
     const dataURL = canvas.toDataURL();
     console.log(dataURL);
     window.open(dataURL);
-  };
-
-  makeLine = (a1, a2, b1, b2) => {
-    const line = canvas.getContext('2d');
-    line.beginPath();
-    line.moveTo(a1, a2);
-    line.lineTo(b1, b2);
-    line.stroke();
   };
 
   addText = (text) => {
@@ -56,14 +59,40 @@ class App extends Component {
     myText.fillText('testing text', ((window.innerWidth/2) - 100), window.innerHeight/2);
   };
 
+  clearCanvas = () => {
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    this.makeVideo();
+  };
+
+  draw = (v,c,w,h) => {
+    if (this.state.stopVid) return false;
+    c.drawImage(v, 0, 0, w, h);
+    setTimeout(this.draw, 20, v, c, w, h);
+  };
+
+  step1 = () => {
+    return (
+      <div id='holder'>
+        <div id='shutter' onClick={this.takeScreenshot}></div>
+      </div>
+    );
+  };
+
+  step2 = () => {
+    return (
+      <div id='holder'>
+        <div className='button' onClick={this.addText}>make text</div>  &nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='button' onClick={this.clearCanvas}>reset</div> &nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='button' onClick={this.saveScreenshot}>save</div>
+      </div>
+    );
+  };
+
   render() {
     return (
       <React.Fragment>
-        <div id='holder'>
-          <div className='button' onClick={() => this.makeLine(0, 0, window.innerWidth/2, window.innerHeight/2)}>make line</div>
-          <div id='shutter' onClick={this.takeScreenshot}></div>
-          <div className='button' onClick={this.addText}>make text</div>
-        </div>
+        {this.state.step === 1 ? this.step1() : this.step2() }
         <video id='video' width='640' height='480' autoPlay></video>
         <canvas id='myCanvas' width='500' height='500'></canvas>
       </React.Fragment>
