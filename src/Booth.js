@@ -6,6 +6,7 @@ const vidRatio = 1.3;
 
 let canvas = '';
 let video = '';
+let canvasVid = '';
 
 class Booth extends Component {
   state = {
@@ -15,32 +16,30 @@ class Booth extends Component {
   };
 
   componentDidMount() {
-    this.launchProgram();
+    this.createCanvas();
+    this.createVideo();
   };
 
-  launchProgram = () => {
+  componentWillUnmount() {
+    this.stopVideo();
+  };
+
+  createCanvas = () => {
     canvas = document.getElementById('myCanvas');
     canvas.width = window.innerWidth * ipadRatio;
     canvas.height = window.innerHeight;
-
-    this.makeVideo();
   };
 
-  makeVideo = () => {
-    setTimeout(function(){
-      window.scrollTo(0, 0);
-    }, 0);
-
+  createVideo = () => {
     video = document.getElementById('video');
-    video.width = window.innerWidth/2;
-    video.height = window.innerHeight/2;
 
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        canvasVid = canvas.getContext('2d');
+
         video.src = window.URL.createObjectURL(stream);
         video.play();
-        const canvasVid = canvas.getContext('2d');
-        this.draw(video, canvasVid, (canvas.height * vidRatio), canvas.height);
+        this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
       });
     }else{
       console.log('something is wrong.');
@@ -50,8 +49,10 @@ class Booth extends Component {
   stopVideo = () => {
     video.pause();
     video.src = "";
-    // this.resetCanvas();
-  }
+    this.setState({
+      stopVid: true,
+    });
+  };
 
   takeScreenshot = () => {
     document.getElementById('frame').classList.add('hide');
@@ -60,11 +61,13 @@ class Booth extends Component {
       const frameImg = document.getElementById('hiddenImage1');
       const frame = canvas.getContext('2d');
       const ratio = frameImg.width / frameImg.height;
+
       frame.drawImage(frameImg, (canvas.width/2) - (canvas.height * ratio)/2, 0, canvas.height * ratio, canvas.height);
     }else {
       const frameImg = document.getElementById('hiddenImage2');
       const frame = canvas.getContext('2d');
       const ratio = frameImg.width / frameImg.height;
+
       frame.drawImage(frameImg, (canvas.width/2) - (canvas.height * ratio)/2, 0, canvas.height * ratio, canvas.height);
     };
 
@@ -85,24 +88,28 @@ class Booth extends Component {
 
   addText = (text) => {
     const myText = canvas.getContext('2d');
+
     myText.fillStyle = 'blue';
     myText.font = '40pt Calibri';
-    myText.fillText('testing text', ((window.innerWidth/2) - 100), window.innerHeight/2);
+    myText.fillText('testing text', ((canvas.width/2) - 100), canvas.height/2);
   };
 
   resetCanvas = () => {
-    this.setState({step: 1, stopVid: false});
     const context = canvas.getContext('2d');
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const canvasVid = canvas.getContext('2d');
-    this.draw(video, canvasVid, canvas.width, canvas.height);
+    document.getElementById('frame').classList.remove('hide');
+
+    this.setState({
+      step: 1,
+      stopVid: false,
+    });
+
+    this.createVideo();
   };
 
-  draw = (v,c,w,h) => {
+  drawVideo = (v,c,w,h) => {
     if (this.state.stopVid) return false;
     c.drawImage(v, 0, 0, w, h);
-    setTimeout(this.draw, 20, v, c, w, h);
+    setTimeout(this.drawVideo, 20, v, c, w, h);
   };
 
   step1 = () => {
@@ -149,7 +156,7 @@ class Booth extends Component {
         
         <video id='video' width='640' height='480' autoPlay></video>
         <canvas id='myCanvas' width='500' height='500'></canvas>
-        
+
         <div className='hide'>
           <img id='hiddenImage1' src='./assets/frame1.png' alt='hidden' />
           <img id='hiddenImage2' src='./assets/frame2.png' alt='hidden dos' />
