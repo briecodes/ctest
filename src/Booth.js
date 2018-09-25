@@ -114,7 +114,7 @@ class Booth extends Component {
 
   drawVideo = (v,c,w,h) => {
     if (this.state.stopVid) return false;
-    c.drawImage(v, 0, 0, w, h);
+    c.drawImage(v, -Math.abs((canvas.height * ipadRatio)/2.75), 0, w, h);
     setTimeout(this.drawVideo, 20, v, c, w, h);
   };
 
