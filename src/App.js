@@ -72,9 +72,12 @@ class App extends Component {
   };
 
   saveScreenshot = () => {
-    const dataURL = canvas.toDataURL();
-    console.log(dataURL);
-    window.open(dataURL);
+    const dataURL = canvas.toDataURL('image/png');
+    const image = new Image();
+    const w = window.open('');
+
+    image.src = dataURL;
+    w.document.write(image.outerHTML);
   };
 
   addText = (text) => {
