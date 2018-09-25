@@ -24,6 +24,10 @@ class App extends Component {
   };
 
   makeVideo = () => {
+    setTimeout(function(){
+      window.scrollTo(0, 0);
+    }, 0);
+
     video = document.getElementById('video');
     video.width = window.innerWidth/2;
     video.height = window.innerHeight/2;
@@ -43,7 +47,7 @@ class App extends Component {
   stopVideo = () => {
     video.pause();
     video.src = "";
-    // this.clearCanvas();
+    // this.resetCanvas();
   }
 
   takeScreenshot = () => {
@@ -80,11 +84,13 @@ class App extends Component {
     myText.fillText('testing text', ((window.innerWidth/2) - 100), window.innerHeight/2);
   };
 
-  clearCanvas = () => {
-    this.setState({step: 1});
+  resetCanvas = () => {
+    this.setState({step: 1, stopVid: false});
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
-    this.makeVideo();
+    
+    const canvasVid = canvas.getContext('2d');
+    this.draw(video, canvasVid, canvas.width, canvas.height);
   };
 
   draw = (v,c,w,h) => {
@@ -107,7 +113,7 @@ class App extends Component {
     return (
       <div id='holder'>
         <div className='button' onClick={this.addText}>make text</div>  &nbsp;&nbsp;&nbsp;&nbsp;
-        <div className='button' onClick={this.clearCanvas}>reset</div> &nbsp;&nbsp;&nbsp;&nbsp;
+        <div className='button' onClick={this.resetCanvas}>reset</div> &nbsp;&nbsp;&nbsp;&nbsp;
         <div className='button' onClick={this.saveScreenshot}>save</div>
       </div>
     );
