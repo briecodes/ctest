@@ -24,9 +24,16 @@ class Booth extends Component {
     this.stopVideo();
   };
 
+  canvasInfo = () => {
+    console.log('-------canvas info--------');
+    console.log('canvas width, height:', canvas.width + ' ' + canvas.height);
+    console.log('window width, height:', window.innerWidth + ' ' + window.innerHeight);
+    console.log('------- / canvas info--------');
+  };
+
   createCanvas = () => {
     canvas = document.getElementById('myCanvas');
-    canvas.width = window.innerWidth * ipadRatio;
+    canvas.width = window.innerHeight * ipadRatio;
     canvas.height = window.innerHeight;
   };
 
@@ -154,8 +161,8 @@ class Booth extends Component {
         {this.state.step === 1 ? this.step1() : this.step2() }
         {this.state.frame === 1 ? <div className="frame1" id='frame'></div> : <div className="frame2" id='frame'></div> }
         
-        <video id='video' width='640' height='480' autoPlay></video>
-        <canvas id='myCanvas' width='500' height='500'></canvas>
+        <video id='video' className='hide' width='640' height='480' autoPlay></video>
+        <canvas id='myCanvas' width='500' height='500' onClick={this.canvasInfo}></canvas>
 
         <div className='hide'>
           <img id='hiddenImage1' src='./assets/frame1.png' alt='hidden' />
