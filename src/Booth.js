@@ -102,7 +102,6 @@ class Booth extends Component {
   };
 
   resetCanvas = () => {
-    const context = canvas.getContext('2d');
     document.getElementById('frame').classList.remove('hide');
 
     this.setState({
