@@ -117,3 +117,10 @@ p {
   align-content: center;
   justify-content: center;
 }
+
+@media (max-width: 600px) {
+  #intro {
+    font-size: 1em;
+    width: 75%;
+  }
+}
