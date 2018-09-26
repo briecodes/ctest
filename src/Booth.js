@@ -8,11 +8,6 @@ let canvas = '';
 let video = '';
 let canvasVid = '';
 
-const constraints = window.constraints = {
-  audio: false,
-  video: true
-};
-
 class Booth extends Component {
   state = {
     stopVid: false,
@@ -24,10 +19,20 @@ class Booth extends Component {
     this.createCanvas();
     // this.createVideo();
     // this.createVideoDos();
+
+    this.appendScript('https://webrtc.github.io/adapter/adapter-latest.js');
+    this.appendScript('https://webrtc.github.io/samples/src/content/getusermedia/gum/js/main.js');
   };
 
   componentWillUnmount() {
     this.stopVideo();
+  };
+
+  appendScript = (url) => {
+    const script = document.createElement("script");
+    script.src = url;
+    script.async = true;
+    document.body.appendChild(script);
   };
 
   canvasInfo = () => {
@@ -45,82 +50,25 @@ class Booth extends Component {
 
   createVideo = () => {
     video = document.getElementById('video');
+    canvasVid = canvas.getContext('2d');
+    this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
 
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-        canvasVid = canvas.getContext('2d');
+    // if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //   navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+    //     canvasVid = canvas.getContext('2d');
 
-        video.src = window.URL.createObjectURL(stream);
-        video.play();
-        this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
-      });
-    }else{
-      console.log('something is wrong.');
-    };
+    //     video.src = window.URL.createObjectURL(stream);
+    //     video.play();
+    //     this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
+    //   });
+    // }else{
+    //   console.log('something is wrong.');
+    // };
   };
-
-  // START TEST
-
-  handleSuccess = (stream) => {
-    // const video = document.querySelector('video');
-    const video = document.getElementById('gum-local');
-    // const videoTracks = stream.getVideoTracks();
-    // console.log('Got stream with constraints:', constraints);
-    // console.log(`Using video device: ${videoTracks[0].label}`);
-    window.stream = stream; // make variable available to browser console
-    video.srcObject = stream;
-  };
-
-  handleError = (error) => {
-    if (error.name === 'ConstraintNotSatisfiedError') {
-      let v = constraints.video;
-      this.errorMsg(`The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`);
-    } else if (error.name === 'PermissionDeniedError') {
-      this.errorMsg('Permissions have not been granted to use your camera and ' +
-        'microphone, you need to allow the page access to your devices in ' +
-        'order for the demo to work.');
-    }
-    this.errorMsg(`getUserMedia error: ${error.name}`, error);
-  };
-
-  errorMsg = (msg, error) => {
-    const errorElement = document.querySelector('#errorMsg');
-    errorElement.innerHTML += `<p>${msg}</p>`;
-    if (typeof error !== 'undefined') {
-      console.error(error);
-    };
-  };
-
-  // init = (e) => {
-  //   try {
-  //     const stream = navigator.mediaDevices.getUserMedia(constraints);
-  //     this.handleSuccess(stream);
-  //     e.target.disabled = true;
-  //   } catch (e) {
-  //     this.handleError(e);
-  //   }
-  // }
-
-  init = (e) => {
-    async function goForIt(e) {
-      try {
-        const stream = navigator.mediaDevices.getUserMedia(constraints);
-        this.handleSuccess(stream);
-      } catch (e) {
-        this.handleError(e);
-      }
-    };
-    
-    let got = goForIt.bind(this);
-    got(e)
-    // goForIt(e);
-  };
-
-  // END TEST
 
   stopVideo = () => {
-    video.pause();
-    video.src = "";
+    // video.pause();
+    // video.src = "";
     this.setState({
       stopVid: true,
     });
@@ -186,6 +134,7 @@ class Booth extends Component {
   step1 = () => {
     return (
       <div id='holder'>
+        <button id="showVideo" onClick={this.createVideo}>Open camera</button>
         <div className='button' onClick={e => this.init(e)}>&nbsp; &lt; &nbsp;&nbsp;</div>
         <div id='errorMsg'></div>
         <div id='shutter' onClick={this.takeScreenshot}></div>
@@ -224,7 +173,7 @@ class Booth extends Component {
 
         {this.state.step === 1 ? this.step1() : this.step2() }
         {this.state.frame === 1 ? <div className="frame1" id='frame'></div> : <div className="frame2" id='frame'></div> }
-        <video id="gum-local" autoPlay playsInline></video>
+
         <video id='video' className='hide' width='640' height='480' autoPlay></video>
         <canvas id='myCanvas' width='500' height='500' onClick={this.canvasInfo}></canvas>
 
@@ -232,6 +181,7 @@ class Booth extends Component {
           <img id='hiddenImage1' src='./assets/frame1.png' alt='hidden' />
           <img id='hiddenImage2' src='./assets/frame2.png' alt='hidden dos' />
         </div>
+        <script src=''></script>
       </React.Fragment>
     );
   };
