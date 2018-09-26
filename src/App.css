@@ -118,6 +118,10 @@ p {
   justify-content: center;
 }
 
+#gum-local {
+  z-index: 5;
+}
+
 @media (max-width: 600px) {
   #intro {
     font-size: 1em;

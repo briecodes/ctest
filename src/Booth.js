@@ -62,11 +62,11 @@ class Booth extends Component {
   // START TEST
 
   handleSuccess = (stream) => {
-    console.log('stream:', stream);
-    const video = document.querySelector('video');
-    const videoTracks = stream.getVideoTracks();
-    console.log('Got stream with constraints:', constraints);
-    console.log(`Using video device: ${videoTracks[0].label}`);
+    // const video = document.querySelector('video');
+    const video = document.getElementById('gum-local');
+    // const videoTracks = stream.getVideoTracks();
+    // console.log('Got stream with constraints:', constraints);
+    // console.log(`Using video device: ${videoTracks[0].label}`);
     window.stream = stream; // make variable available to browser console
     video.srcObject = stream;
   };
@@ -111,7 +111,9 @@ class Booth extends Component {
       }
     };
     
-    goForIt(e);
+    let got = goForIt.bind(this);
+    got(e)
+    // goForIt(e);
   };
 
   // END TEST
@@ -203,7 +205,6 @@ class Booth extends Component {
   };
 
   prevNext = () => {
-    console.log('click');
     if (this.state.frame === 1){
       this.setState({
         frame: 2
