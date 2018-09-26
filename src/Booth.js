@@ -59,17 +59,10 @@ class Booth extends Component {
     };
   };
 
-  createVideoDos = () => {
-    const constraints = window.constraints = {
-      audio: false,
-      video: true
-    };
-
-  };
-
   // START TEST
 
   handleSuccess = (stream) => {
+    console.log('stream:', stream);
     const video = document.querySelector('video');
     const videoTracks = stream.getVideoTracks();
     console.log('Got stream with constraints:', constraints);
@@ -98,15 +91,28 @@ class Booth extends Component {
     };
   };
 
+  // init = (e) => {
+  //   try {
+  //     const stream = navigator.mediaDevices.getUserMedia(constraints);
+  //     this.handleSuccess(stream);
+  //     e.target.disabled = true;
+  //   } catch (e) {
+  //     this.handleError(e);
+  //   }
+  // }
+
   init = (e) => {
-    try {
-      const stream = navigator.mediaDevices.getUserMedia(constraints);
-      this.handleSuccess(stream);
-      e.target.disabled = true;
-    } catch (e) {
-      this.handleError(e);
-    }
-  }
+    async function goForIt(e) {
+      try {
+        const stream = navigator.mediaDevices.getUserMedia(constraints);
+        this.handleSuccess(stream);
+      } catch (e) {
+        this.handleError(e);
+      }
+    };
+    
+    goForIt(e);
+  };
 
   // END TEST
 
