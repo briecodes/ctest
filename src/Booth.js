@@ -20,12 +20,16 @@ class Booth extends Component {
     // this.createVideo();
     // this.createVideoDos();
 
-    this.appendScript('https://webrtc.github.io/adapter/adapter-latest.js');
-    this.appendScript('https://webrtc.github.io/samples/src/content/getusermedia/gum/js/main.js');
+    // this.appendScript('https://webrtc.github.io/adapter/adapter-latest.js');
+    // this.appendScript('https://webrtc.github.io/samples/src/content/getusermedia/gum/js/main.js');
   };
 
   componentWillUnmount() {
     this.stopVideo();
+  };
+
+  openCameraNao = () => {
+    this.createVideo();
   };
 
   appendScript = (url) => {
@@ -53,22 +57,22 @@ class Booth extends Component {
     canvasVid = canvas.getContext('2d');
     this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
 
-    // if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    //   navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-    //     canvasVid = canvas.getContext('2d');
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        canvasVid = canvas.getContext('2d');
 
-    //     video.src = window.URL.createObjectURL(stream);
-    //     video.play();
-    //     this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
-    //   });
-    // }else{
-    //   console.log('something is wrong.');
-    // };
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+        this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
+      });
+    }else{
+      console.log('something is wrong.');
+    };
   };
 
   stopVideo = () => {
-    // video.pause();
-    // video.src = "";
+    video.pause();
+    video.src = "";
     this.setState({
       stopVid: true,
     });
@@ -134,7 +138,8 @@ class Booth extends Component {
   step1 = () => {
     return (
       <div id='holder'>
-        <button id="showVideo" onClick={this.createVideo}>Open camera</button>
+        {/* <button id="showVideo" onClick={this.createVideo}>Open camera</button> */}
+        <button onClick={this.openCameraNao}>Open Camera OK?</button>
         <div className='button' onClick={e => this.init(e)}>&nbsp; &lt; &nbsp;&nbsp;</div>
         <div id='errorMsg'></div>
         <div id='shutter' onClick={this.takeScreenshot}></div>
