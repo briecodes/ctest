@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-let angleText = '';
+// let angleText = '';
 
 class Home extends Component {
 
@@ -12,7 +12,7 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('Home page loaded.');
-    angleText = document.getElementById('angle');
+    // angleText = document.getElementById('angle');
 
     if (window.DeviceMotionEvent) {
       window.addEventListener('deviceorientation', e => this.deviceMotionHandler(e));
@@ -25,7 +25,7 @@ class Home extends Component {
     });
   };
 
-  getSections = () => {
+  getSectionWidth = () => {
     const angleNum = 90;
     const sections = angleNum/this.getImgCount();
 
@@ -62,36 +62,58 @@ class Home extends Component {
   };
 
   deviceMotionHandler = (evt) => {
-    const num = Math.floor(evt.gamma);
-    console.log('imgCount');
-    // angleText.innerHTML = `Angle: ${num}. Sections: ${this.getSections()}`;
-    this.display('angle', `Angle: ${num}. Sections: ${this.getSections()}`);
+    // const num = Math.floor(evt.gamma);
+    const num = evt.gamma;
+    this.display('angle', `Angle: ${num}. Sections: ${this.getSectionWidth()}`);
 
-    if (num >= -4 && num <= 4 ) {
-      // this.setState({ angle: 0 });
-      this.cycleImages(0);
-    } else if (num < 4 && num >= -8 ) {
-      // this.setState({ angle: -1 });
-      this.cycleImages(5);
-    } else if (num < -8 && num >= -16 ) {
-      // this.setState({ angle: -2 });
-      this.cycleImages(6);
-    } else if (num < -16 && num >= -20 ) {
-      // this.setState({ angle: -3 });
-      this.cycleImages(7);
-    } else if (num < -20 || num > 20 ) {
-      // this.setState({ angle: -4 });
-      this.cycleImages(4);
-    } else if (num > 4 && num <= 8 ) {
-      // this.setState({ angle: 1 });
-      this.cycleImages(1);
-    } else if (num > 8 && num <= 16 ) {
-      // this.setState({ angle: 2 });
-      this.cycleImages(2);
-    } else if (num > 16 && num <= 20 ) {
-      // this.setState({ angle: 3 });
-      this.cycleImages(3);
-    }
+    this.circleDivider(num, this.getSectionWidth(), this.state.images, this.cycleImages)
+
+    // if (num >= -4 && num <= 4 ) {
+    //   // this.setState({ angle: 0 });
+    //   this.cycleImages(0);
+    // } else if (num < 4 && num >= -8 ) {
+    //   // this.setState({ angle: -1 });
+    //   this.cycleImages(5);
+    // } else if (num < -8 && num >= -16 ) {
+    //   // this.setState({ angle: -2 });
+    //   this.cycleImages(6);
+    // } else if (num < -16 && num >= -20 ) {
+    //   // this.setState({ angle: -3 });
+    //   this.cycleImages(7);
+    // } else if (num < -20 || num > 20 ) {
+    //   // this.setState({ angle: -4 });
+    //   this.cycleImages(4);
+    // } else if (num > 4 && num <= 8 ) {
+    //   // this.setState({ angle: 1 });
+    //   this.cycleImages(1);
+    // } else if (num > 8 && num <= 16 ) {
+    //   // this.setState({ angle: 2 });
+    //   this.cycleImages(2);
+    // } else if (num > 16 && num <= 20 ) {
+    //   // this.setState({ angle: 3 });
+    //   this.cycleImages(3);
+    // }
+  };
+
+  circleDivider = (currentAngle, sectionWidth, imgArr, func) => {
+    this.display('addnotes', `inside circleDivider`);
+    let i = 0;
+    for (const n of imgArr) {
+      let index = imgArr.indexOf(n) + 1;
+
+      if ( currentAngle > i * index && currentAngle < index * sectionWidth) {
+        // this.display('addnotes', `circleDivider. i: ${i}. index of i: ${this.state.images.indexOf(n)}. sectionWidth: ${sectionWidth}`);
+        func( this.state.images.indexOf(n) );
+        return;
+      } else if ( currentAngle < -1 *(i * index) && currentAngle > -1 * (index * sectionWidth)) {
+        this.display('addnotes', `circleDivider. i: ${i}. index of i: ${this.state.images.indexOf(n)}. first: ${-1 *(i * index)}. second: ${-1 * (index * sectionWidth)}`);
+        func( this.state.images.indexOf(n) );
+        return;
+      } else {
+        i++
+      };
+
+    };
   };
 
   start = () => {
@@ -121,6 +143,7 @@ class Home extends Component {
         </div>
         <div id='angle'></div>
         <div id='notes'></div>
+        <div id='addnotes'></div>
       </center>
     );
   };
