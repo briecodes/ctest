@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 class Home extends Component {
 
+  componentDidMount() {
+    console.log('Home page loaded.');
+  }
+
   start = () => {
     window.history.pushState({}, "new state", 'booth');
   };

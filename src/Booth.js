@@ -17,6 +17,8 @@ class Booth extends Component {
 
   componentDidMount() {
     this.createCanvas();
+    console.log('something is happening on booth page.');
+    video = document.getElementById('video');
     // this.createVideo();
     // this.createVideoDos();
 
@@ -57,18 +59,39 @@ class Booth extends Component {
     canvasVid = canvas.getContext('2d');
     this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
 
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if ( this.hasGetUserMedia() ) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-        canvasVid = canvas.getContext('2d');
 
-        video.src = window.URL.createObjectURL(stream);
-        video.play();
+        // video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
+        // video.play();
+        canvasVid = canvas.getContext('2d');
         this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
       });
     }else{
       console.log('something is wrong.');
     };
   };
+
+  // TESTS START
+
+  runVideo = () => {
+    if ( this.hasGetUserMedia() ) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then( stream => {
+      video.srcObject = stream;
+      canvasVid = canvas.getContext('2d');
+      this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
+      });
+    } else {
+      alert('getUserMedia() is not supported by your browser.');
+    }
+  };
+
+  hasGetUserMedia = () => {
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  };
+
+  // TESTS END
 
   stopVideo = () => {
     video.pause();
@@ -126,7 +149,7 @@ class Booth extends Component {
       stopVid: false,
     });
 
-    this.createVideo();
+    this.runVideo();
   };
 
   drawVideo = (v,c,w,h) => {
@@ -140,7 +163,7 @@ class Booth extends Component {
       <div id='holder'>
         {/* <button id="showVideo" onClick={this.createVideo}>Open camera</button> */}
         <button onClick={this.openCameraNao}>Open Camera OK?</button>
-        <div className='button' onClick={e => this.init(e)}>&nbsp; &lt; &nbsp;&nbsp;</div>
+        <div className='button' onClick={this.prevNext}>&nbsp; &lt; &nbsp;&nbsp;</div>
         <div id='errorMsg'></div>
         <div id='shutter' onClick={this.takeScreenshot}></div>
         <div className='button' onClick={this.prevNext}>&nbsp;&nbsp; &gt; &nbsp;</div>
