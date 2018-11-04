@@ -126,6 +126,10 @@ p {
   font-size: 8px;
 }
 
+.hide-img {
+  display: none;
+}
+
 @media (max-width: 600px) {
   #intro {
     font-size: 1em;
