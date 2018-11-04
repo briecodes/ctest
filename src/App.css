@@ -122,6 +122,10 @@ p {
   z-index: 5;
 }
 
+#text {
+  font-size: 8px;
+}
+
 @media (max-width: 600px) {
   #intro {
     font-size: 1em;
