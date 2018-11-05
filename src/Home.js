@@ -103,6 +103,9 @@ class Home extends Component {
         <div id='angle'></div>
         <div id='notes'></div>
         <div id='addnote'></div>
+        <NavLink to="/" exact className='button'>
+          Back
+        </NavLink>
       </center>
     );
   };
