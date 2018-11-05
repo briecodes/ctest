@@ -130,6 +130,25 @@ p {
   display: none;
 }
 
+#banner-container {
+  width: 300px;
+  height: 250px;
+  margin: 15px auto;
+  background-image: url('./assets/banner_bg.jpg');
+}
+
+.banner-content {
+  width: 300px;
+  height: 250px;
+  position: relative;
+}
+
+.pig {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 @media (max-width: 600px) {
   #intro {
     font-size: 1em;

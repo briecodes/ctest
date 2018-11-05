@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import Banner from './banner';
 import Home from './Home';
 import Booth from './Booth';
 
 class App extends Component {
+
+  banner = () => {
+    return <Banner />;
+  };
 
   home = () => {
     return <Home />;
@@ -19,7 +24,8 @@ class App extends Component {
     return (
       <Router>
         <div id='container'>
-          <Route exact path='/' render={this.home} />
+          <Route exact path='/' render={this.banner} />
+          <Route exact path='/home' render={this.home} />
           <Route exact path='/booth' render={this.booth} />
         </div>
       </Router>
