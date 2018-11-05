@@ -7,7 +7,6 @@ const vidRatio = 1.3;
 let canvas = '';
 let video = '';
 let canvasVid = '';
-let textMe = '';
 
 class Booth extends Component {
   state = {
@@ -20,40 +19,12 @@ class Booth extends Component {
     this.createCanvas();
     console.log('something is happening on booth page.');
     video = document.getElementById('video');
-    textMe = document.getElementById('text');
-
-    if (window.DeviceMotionEvent) {
-      console.log('supported!');
-      window.addEventListener('deviceorientation', e => this.deviceMotionHandler(e));
-      // setTimeout(stopJump, 3*1000);
-    } else {
-      console.log('not supported');
-    }
 
     // this.createVideo();
     // this.createVideoDos();
 
     // this.appendScript('https://webrtc.github.io/adapter/adapter-latest.js');
     // this.appendScript('https://webrtc.github.io/samples/src/content/getusermedia/gum/js/main.js');
-  };
-
-  deviceMotionHandler = (evt) => {
-    console.log(evt.gamma);
-    textMe.innerHTML = evt.gamma;
-    if (evt.gamma > 0 ){
-      textMe.innerHTML = 'turning left' + evt.gamma;
-    } else {
-      textMe.innerHTML = 'turning right' + evt.gamma;
-    }
-    // if (evt.acceleration.x > jumpMax.x) {
-    //   jumpMax.x = evt.acceleration.x;
-    // }
-    // if (evt.acceleration.y > jumpMax.y) {
-    //   jumpMax.y = evt.acceleration.y;
-    // }
-    // if (evt.acceleration.z > jumpMax.z) {
-    //   jumpMax.z = evt.acceleration.z;
-    // }
   };
   
   componentWillUnmount() {
