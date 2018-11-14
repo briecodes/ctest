@@ -24,9 +24,9 @@ class App extends Component {
     return (
       <Router>
         <div id='container'>
-          <Route exact path='/' render={this.banner} />
-          <Route exact path='/home' render={this.home} />
-          <Route exact path='/booth' render={this.booth} />
+          <Route exact path='/demos/photoshare/' render={this.banner} />
+          <Route exact path='/demos/photoshare/home' render={this.home} />
+          <Route exact path='/demos/photoshare/booth' render={this.booth} />
         </div>
       </Router>
     );

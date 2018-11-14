@@ -90,11 +90,11 @@ class Home extends Component {
   render() {
     return (
       <center>
-        <img src='./assets/pcf.png' alt='pcf' width='30%' />
+        <img src='/demos/photoshare/assets/pcf.png' alt='pcf' width='30%' />
         <p id='intro'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus ante, maximus vel nibh in, varius sollicitudin sem.
         </p>
-        <NavLink to="/booth" exact className='button'>
+        <NavLink to="/demos/photoshare/booth" exact className='button'>
           Start >
         </NavLink>
         <div id='pic'>
@@ -103,7 +103,7 @@ class Home extends Component {
         <div id='angle'></div>
         <div id='notes'></div>
         <div id='addnote'></div>
-        <NavLink to="/" exact className='button'>
+        <NavLink to="/demos/photoshare/" exact className='button'>
           Back
         </NavLink>
       </center>

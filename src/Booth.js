@@ -199,7 +199,7 @@ class Booth extends Component {
   render() {
     return (
       <React.Fragment>
-        <NavLink to="/" exact className='button' id='home'>Home</NavLink>
+        <NavLink to="/demos/photoshare/" exact className='button' id='home'>Home</NavLink>
 
         {this.state.step === 1 ? this.step1() : this.step2() }
         {this.state.frame === 1 ? <div className="frame1" id='frame'></div> : <div className="frame2" id='frame'></div> }
