@@ -17,7 +17,7 @@ class Home extends Component {
   };
 
   componentWillUnmount() {
-    document.getElementsByTagName('body')[0].classList.remove('homepage-bg');
+    document.getElementsByTagName('html')[0].classList.remove('homepage-bg');
   }
 
   images = (w,h) => {
@@ -93,24 +93,22 @@ class Home extends Component {
 
   render() {
     return (
-      <center>
-        <img src='/demos/photoshare/assets/pcf.png' alt='pcf' width='30%' />
-        <p id='intro'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tellus ante, maximus vel nibh in, varius sollicitudin sem.
-        </p>
-        <NavLink to="/demos/photoshare/booth" exact className='button'>
-          Start >
-        </NavLink>
-        <div id='pic'>
-          {this.images('auto', '150px')}
+      <div id='intro-container'>
+        <div id='intro'>
+          <img src='/demos/photoshare/assets/gravityfalls-logo.png' alt='Gravity Falls Logo' width='30%' />
+          <h1>Welcome to Gravity Falls!</h1>
+          <p>
+            Waddles has been awaiting your arrival. Take a picture with him to help fulfill his most wildest dream!
+          </p>
+          <NavLink to="/demos/photoshare/booth" exact className='home-button'>
+            Start
+          </NavLink>
         </div>
-        <div id='angle'></div>
-        <div id='notes'></div>
-        <div id='addnote'></div>
-        <NavLink to="/demos/photoshare/" exact className='button'>
-          Back
-        </NavLink>
-      </center>
+        
+        {/* <div id='pic'>
+          {this.images('auto', '150px')}
+        </div> */}
+      </div>
     );
   };
 };
