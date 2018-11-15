@@ -13,6 +13,7 @@ class Booth extends Component {
     stopVid: false,
     step: 1,
     frame: 1,
+    cameraOpen: false,
   };
 
   componentDidMount() {
@@ -27,6 +28,7 @@ class Booth extends Component {
   };
 
   openCameraNao = () => {
+    this.setState({ cameraOpen: true });
     this.createVideo();
   };
 
@@ -147,11 +149,9 @@ class Booth extends Component {
   step1 = () => {
     return (
       <div id='holder'>
-        <button onClick={this.openCameraNao}>Open Camera?</button>
         <div id='text'></div>
         <div className='button' onClick={this.prevNext}>&nbsp; &lt; &nbsp;&nbsp;</div>
-        <div id='errorMsg'></div>
-        <div id='shutter' onClick={this.takeScreenshot}></div>
+        {this.state.cameraOpen ? <div id='shutter' onClick={this.takeScreenshot}></div> : <button onClick={this.openCameraNao}>Open Camera</button>}
         <div className='button' onClick={this.prevNext}>&nbsp;&nbsp; &gt; &nbsp;</div>
       </div>
     );
