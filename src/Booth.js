@@ -20,7 +20,6 @@ class Booth extends Component {
     this.createCanvas();
     console.log('something is happening on booth page.');
     video = document.getElementById('video');
-
   };
   
   componentWillUnmount() {

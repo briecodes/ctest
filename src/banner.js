@@ -87,7 +87,7 @@ class Banner extends Component {
         <div className='content-block-img'></div>
 
         <div id='banner-container'>
-          <Link to='/demos/photoshare/home' target='_blank'>
+          <Link to='/demos/photoshare/home'>
             <div className='banner-content'>
               {this.images('173', '218')}
             </div>
