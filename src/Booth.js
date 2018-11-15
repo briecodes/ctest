@@ -20,11 +20,6 @@ class Booth extends Component {
     console.log('something is happening on booth page.');
     video = document.getElementById('video');
 
-    // this.createVideo();
-    // this.createVideoDos();
-
-    // this.appendScript('https://webrtc.github.io/adapter/adapter-latest.js');
-    // this.appendScript('https://webrtc.github.io/samples/src/content/getusermedia/gum/js/main.js');
   };
   
   componentWillUnmount() {
@@ -35,20 +30,6 @@ class Booth extends Component {
     this.createVideo();
   };
 
-  appendScript = (url) => {
-    const script = document.createElement("script");
-    script.src = url;
-    script.async = true;
-    document.body.appendChild(script);
-  };
-
-  canvasInfo = () => {
-    console.log('-------canvas info--------');
-    console.log('canvas width, height:', canvas.width + ' ' + canvas.height);
-    console.log('window width, height:', window.innerWidth + ' ' + window.innerHeight);
-    console.log('------- / canvas info--------');
-  };
-
   createCanvas = () => {
     canvas = document.getElementById('myCanvas');
     canvas.width = window.innerHeight * ipadRatio;
@@ -56,16 +37,13 @@ class Booth extends Component {
   };
 
   createVideo = () => {
-    video = document.getElementById('video');
     canvasVid = canvas.getContext('2d');
     this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
 
     if ( this.hasGetUserMedia() ) {
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
 
-        // video.src = window.URL.createObjectURL(stream);
         video.srcObject = stream;
-        // video.play();
         canvasVid = canvas.getContext('2d');
         this.drawVideo(video, canvasVid, (canvas.height * vidRatio), canvas.height);
       });
@@ -155,14 +133,20 @@ class Booth extends Component {
 
   drawVideo = (v,c,w,h) => {
     if (this.state.stopVid) return false;
-    c.drawImage(v, -Math.abs((canvas.height * ipadRatio)/2.75), 0, w, h);
-    setTimeout(this.drawVideo, 20, v, c, w, h);
+    let wide = v.videoWidth > v.videoHeight;
+    
+    if (wide) {
+      c.drawImage(v, -Math.abs((canvas.height * ipadRatio)/2.75), 0, w, h);
+      setTimeout(this.drawVideo, 20, v, c, w, h);
+    }else {
+      c.drawImage(v, -Math.abs((canvas.height * ipadRatio)/2.75), 0, h, w);
+      setTimeout(this.drawVideo, 20, v, c, w, h);
+    }
   };
 
   step1 = () => {
     return (
       <div id='holder'>
-        {/* <button id="showVideo" onClick={this.createVideo}>Open camera</button> */}
         <button onClick={this.openCameraNao}>Open Camera?</button>
         <div id='text'></div>
         <div className='button' onClick={this.prevNext}>&nbsp; &lt; &nbsp;&nbsp;</div>
@@ -204,7 +188,7 @@ class Booth extends Component {
         {this.state.step === 1 ? this.step1() : this.step2() }
         {this.state.frame === 1 ? <div className="frame1" id='frame'></div> : <div className="frame2" id='frame'></div> }
 
-        <video id='video' className='hide' width='640' height='480' autoPlay></video>
+        <video id='video' className='hide' autoPlay playsInline></video>
         <canvas id='myCanvas' width='500' height='500' onClick={this.canvasInfo}></canvas>
 
         <div className='hide'>
