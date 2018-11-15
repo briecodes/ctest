@@ -1,7 +1,7 @@
 html, body {
   padding: 0;
   margin: 0;
-  background: #f082c8;
+  background: #fff;
 }
 
 canvas {
@@ -128,6 +128,24 @@ p {
 
 .hide-img {
   display: none;
+}
+
+#mobile-page-example {
+  width: 100%;
+}
+
+.content-block-text {
+  background: lightblue;
+  width: 80%;
+  min-height: 10px;
+  margin: 5px auto;
+}
+
+.content-block-img {
+  background: lightblue;
+  width: 70%;
+  min-height: 70px;
+  margin: 5px auto;
 }
 
 #banner-container {

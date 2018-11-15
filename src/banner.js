@@ -81,12 +81,23 @@ class Banner extends Component {
 
   render() {
     return (
-      <div id='banner-container'>
-        <Link to="/demos/photoshare/home">
-          <div className='banner-content'>
-            {this.images('173', '218')}
-          </div>
-        </Link>
+      <div id='mobile-page-example'>
+        <div className='content-block-text'></div>
+        <div className='content-block-text'></div>
+        <div className='content-block-img'></div>
+
+        <div id='banner-container'>
+          <Link to='/demos/photoshare/home' target='_blank'>
+            <div className='banner-content'>
+              {this.images('173', '218')}
+            </div>
+          </Link>
+        </div>
+
+        <div className='content-block-text'></div>
+        <div className='content-block-text'></div>
+        <div className='content-block-img'></div>
+        <div className='content-block-text'></div>
       </div>
     );
   };
