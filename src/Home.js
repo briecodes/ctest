@@ -9,12 +9,16 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    console.log('Home page loaded.');
+    document.getElementsByTagName('html')[0].classList.add('homepage-bg');
 
     if (window.DeviceMotionEvent) {
       window.addEventListener('deviceorientation', e => this.deviceMotionHandler(e));
     };
   };
+
+  componentWillUnmount() {
+    document.getElementsByTagName('body')[0].classList.remove('homepage-bg');
+  }
 
   images = (w,h) => {
     return this.state.images.map(img => {

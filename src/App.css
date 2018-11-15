@@ -1,7 +1,6 @@
 html, body {
   padding: 0;
   margin: 0;
-  background: #fff;
 }
 
 canvas {
@@ -167,9 +166,18 @@ p {
   right: 0;
 }
 
+.homepage-bg {
+  height: 100%;
+  background-image: url('./assets/homepage-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 @media (max-width: 600px) {
   #intro {
     font-size: 1em;
     width: 75%;
   }
 }
+
