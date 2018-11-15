@@ -150,7 +150,7 @@ class Booth extends Component {
       <div id='holder'>
         <div id='text'></div>
         <div className='button' onClick={this.prevNext}>&nbsp; &lt; &nbsp;&nbsp;</div>
-        {this.state.cameraOpen ? <div id='shutter' onClick={this.takeScreenshot}></div> : <button onClick={this.openCameraNao}>Open Camera</button>}
+        {this.state.cameraOpen ? <div id='shutter' onClick={this.takeScreenshot}></div> : <button onClick={this.openCameraNao} className='open-camera-btn'>Open Camera</button>}
         <div className='button' onClick={this.prevNext}>&nbsp;&nbsp; &gt; &nbsp;</div>
       </div>
     );
