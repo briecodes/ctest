@@ -17,13 +17,14 @@ class Booth extends Component {
   };
 
   componentDidMount() {
+    document.getElementsByTagName('html')[0].classList.add('booth-bg');
     this.createCanvas();
-    console.log('something is happening on booth page.');
     video = document.getElementById('video');
   };
   
   componentWillUnmount() {
     this.stopVideo();
+    document.getElementsByTagName('html')[0].classList.remove('booth-bg');
   };
 
   openCameraNao = () => {

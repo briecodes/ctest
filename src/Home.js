@@ -95,7 +95,7 @@ class Home extends Component {
     return (
       <div id='intro-container'>
         <div id='intro'>
-          <img src='/demos/photoshare/assets/gravityfalls-logo.png' alt='Gravity Falls Logo' width='30%' />
+          <div id='logo'></div>
           <h1>Welcome to Gravity Falls!</h1>
           <p>
             Waddles has been awaiting your arrival. Take a picture with him to help fulfill his most wildest dream!
