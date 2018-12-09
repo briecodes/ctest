@@ -106,3 +106,40 @@ gulp.task("sass:728", function() {
 })
 
 gulp.task('build:728', ['scripts:728', 'sass:728']);
+
+
+// Additional:
+
+gulp.task('watch', function() {
+  gulp.watch("./assets/sass/*.scss", ["sass"]);
+  gulp.watch("./assets/js/*.js", ["scripts"])
+
+})
+
+gulp.task("scripts", function() {
+  return gulp.src("./assets/js/main.js")
+  .pipe(browserify())
+  .pipe(gulp.dest("./dist"))
+})
+
+sass.compiler = require('node-sass');
+
+gulp.task("sass", function() {
+  return gulp.src("./assets/sass/*.scss")
+         .pipe(sass().on("error", sass.logError))
+         .pipe(postcss([postcssFixes]))
+         .pipe(autoprefixer({
+           browsers: [
+             '>1%',
+             'last 4 versions',
+             'Firefox ESR',
+             'not ie < 9',
+           ],
+           flexbox: "no-2009"
+         }))
+         .pipe(concat('style.css'))
+         .pipe(gulp.dest("./dist"))
+
+})
+
+gulp.task('default', ['watch']);
